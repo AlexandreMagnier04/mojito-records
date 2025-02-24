@@ -149,6 +149,24 @@ function mojito_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'mojito_scripts' );
 
+function mojito_enqueue_styles() {
+    // Ajouter un style spécifique pour la page d’accueil
+    if (is_front_page()) {
+        wp_enqueue_style('home', get_template_directory_uri() . '/css/home.css');
+    }
+
+    // Charger un style spécifique pour les pages SINGLE des albums et artistes
+    if (is_singular('album') || is_singular('artiste')) {
+        wp_enqueue_style('single-cpt-style', get_template_directory_uri() . '/css/single-cpt.css');
+    }
+
+    // Charger un style spécifique pour les ARCHIVES des albums et artistes
+    if (is_archive('album') || is_archive('artiste')) {
+        wp_enqueue_style('archive-cpt-style', get_template_directory_uri() . '/css/archive-cpt.css');
+    }
+}
+add_action('wp_enqueue_scripts', 'mojito_enqueue_styles');
+
 /**
  * Implement the Custom Header feature.
  */
