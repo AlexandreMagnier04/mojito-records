@@ -970,3 +970,174 @@ textarea {
 	margin-right: auto;
 	margin-bottom: 1.5em;
 }
+
+.artistes-grid, .artistes-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.artiste-card {
+    width: 250px;
+    text-align: center;
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.artiste-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.artiste-card h2, .artiste-card h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.artiste-card p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.btn {
+    display: block;
+    text-align: center;
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background: #555;
+}
+
+.albums-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.album-card {
+    width: 250px;
+    text-align: center;
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+}
+
+.album-card:hover {
+    transform: scale(1.05);
+}
+
+.album-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.album-card h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.album-card p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+#filter-albums {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#filter-albums select {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Présentation du label */
+#presentation {
+    text-align: center;
+    padding: 50px 20px;
+    background: #222;
+    color: white;
+}
+
+#presentation h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+#presentation p {
+    font-size: 1.2em;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Sections Artistes et Albums */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Grille d'affichage */
+.grid-artistes, .grid-albums {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Cartes Artistes et Albums */
+.artiste-card, .album-card {
+    width: 250px;
+    text-align: center;
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+}
+
+.artiste-card:hover, .album-card:hover {
+    transform: scale(1.05);
+}
+
+.artiste-card img, .album-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.artiste-card h3, .album-card h3 {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+/* Bouton Voir Tous */
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.btn:hover {
+    background: #555;
+}
+

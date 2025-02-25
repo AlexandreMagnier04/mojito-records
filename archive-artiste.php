@@ -1,17 +1,34 @@
 <?php get_header(); ?>
 
-<main id="artistes-archive">
+<main id="archive-artistes">
     <h1>Nos Artistes</h1>
-    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-        <article>
-            <a href="<?php the_permalink(); ?>">
-                <h2><?php the_title(); ?></h2>
-                <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
-            </a>
-        </article>
-    <?php endwhile; else : ?>
-        <p>Aucun artiste trouvé.</p>
-    <?php endif; ?>
+
+    <!-- Formulaire de filtre AJAX -->
+    <form id="filter-artistes">
+    <label for="genre">Filtrer par Genre :</label>
+    <select id="genre" name="genre">
+        <option value="">Tous les genres</option>
+        <?php
+        $genres = get_terms(array(
+            'taxonomy'   => 'genre_musical',
+            'hide_empty' => false
+        ));
+
+        if (!is_wp_error($genres) && !empty($genres)) {
+            foreach ($genres as $genre) {
+                echo '<option value="' . esc_attr($genre->slug) . '">' . esc_html($genre->name) . '</option>';
+            }
+        } else {
+            echo '<option value="">Aucun genre trouvé</option>';
+        }
+        ?>
+    </select>
+</form>
+
+    <!-- Conteneur AJAX des artistes -->
+    <div id="artistes-container">
+        <?php get_template_part('template-parts/artistes-list'); ?>
+    </div>
 </main>
 
 <?php get_footer(); ?>

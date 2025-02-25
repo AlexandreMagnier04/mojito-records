@@ -20,6 +20,11 @@
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 
 	<?php wp_head(); ?>
+	<?php
+    $js_path = get_template_directory_uri() . '/js/filter-artistes.js';
+    echo '<script>console.log("Test : Le fichier JS devrait être ici : ' . $js_path . '");</script>';
+?>
+
 </head>
 
 <body <?php body_class(); ?>>
