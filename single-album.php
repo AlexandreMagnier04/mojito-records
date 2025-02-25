@@ -3,25 +3,56 @@
 <main id="album-single">
     <?php while (have_posts()) : the_post(); ?>
         <h1><?php the_title(); ?></h1>
-        <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
 
-        <p><strong>Année de sortie :</strong> <?php echo SCF::get('annee_sortie'); ?></p>
-        <p><strong>Nombre de pistes :</strong> <?php echo SCF::get('nombre_pistes'); ?></p>
+        <?php if (has_post_thumbnail()) : ?>
+            <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
+        <?php endif; ?>
+
+        <p><strong>Artiste :</strong>
+            <?php
+            $artisteLinked = get_field('artiste');
+            foreach ($artisteLinked as $artiste) {
+                echo '<a href="' . get_permalink($artiste) . '">' . get_the_title($artiste) . '</a>';
+            };
+            ?>
+        </p>
+
+        <p><strong>Date de sortie :</strong> <?php echo get_field('annee_de_sortie'); ?></p>
+
+
+        <h3>Liste des pistes :</h3>
+        <ul>
+            <?php
+            $pistes = get_field('pistes');
+            if ($pistes) :
+                foreach ($pistes as $piste) :
+                    echo '<li>' . $piste['nom_de_la_piste'] . '-' . $piste['duree'] . '</li>';
+                endforeach;
+            else :
+                echo '<p>Aucune piste trouvée.</p>';
+            endif;
+            ?>
+        </ul>
 
         <p><strong>Genre musical :</strong> 
-            <?php
-            $genres = get_the_terms(get_the_ID(), 'genre_musical');
-            if ($genres) {
-                foreach ($genres as $genre) {
-                    echo '<a href="' . get_term_link($genre) . '">' . esc_html($genre->name) . '</a> ';
+            <?php 
+            $genres = get_field('genre_musical');
+            if (!empty($genres)) {
+                if (is_array($genres)) {
+                    $genres_list = array();
+                    foreach ($genres as $genre) {
+                        $genres_list[] = esc_html($genre->name); 
+                    }
+                    echo implode(', ', $genres_list);
+                } else {
+                    echo esc_html($genres->name); 
                 }
             } else {
                 echo 'Non classé';
             }
             ?>
-        </p>
 
-        <p><strong>Écouter sur Spotify :</strong> <a href="<?php echo SCF::get('lien_spotify'); ?>" target="_blank">Clique ici</a></p>
+
     <?php endwhile; ?>
 </main>
 

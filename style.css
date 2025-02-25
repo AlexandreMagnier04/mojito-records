@@ -406,7 +406,6 @@ select,
 optgroup,
 textarea {
 	color: #404040;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1rem;
 	line-height: 1.5;
 }
@@ -535,19 +534,11 @@ table {
 
 /* Links
 --------------------------------------------- */
-a {
-	color: #4169e1;
-}
 
-a:visited {
-	color: #800080;
-}
 
-a:hover,
-a:focus,
-a:active {
-	color: #191970;
-}
+
+
+
 
 a:focus {
 	outline: thin dotted;
@@ -945,20 +936,13 @@ textarea {
 --------------------------------------------- */
 .alignleft {
 
-	/*rtl:ignore*/
 	float: left;
-
-	/*rtl:ignore*/
 	margin-right: 1.5em;
 	margin-bottom: 1.5em;
 }
 
 .alignright {
-
-	/*rtl:ignore*/
 	float: right;
-
-	/*rtl:ignore*/
 	margin-left: 1.5em;
 	margin-bottom: 1.5em;
 }
@@ -1004,16 +988,12 @@ textarea {
     display: block;
     text-align: center;
     padding: 10px 20px;
-    background: #333;
     color: white;
     border-radius: 5px;
     text-decoration: none;
     margin-top: 20px;
 }
 
-.btn:hover {
-    background: #555;
-}
 
 .albums-list {
     display: flex;
@@ -1062,11 +1042,11 @@ textarea {
     border-radius: 5px;
 }
 
-/* Présentation du label */
+
 #presentation {
     text-align: center;
     padding: 50px 20px;
-    background: #222;
+    background: #93CB67;
     color: white;
 }
 
@@ -1081,7 +1061,7 @@ textarea {
     margin: 0 auto;
 }
 
-/* Sections Artistes et Albums */
+
 .container {
     max-width: 1100px;
     margin: auto;
@@ -1093,7 +1073,7 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* Grille d'affichage */
+
 .grid-artistes, .grid-albums {
     display: flex;
     flex-wrap: wrap;
@@ -1101,7 +1081,7 @@ h2 {
     gap: 20px;
 }
 
-/* Cartes Artistes et Albums */
+
 .artiste-card, .album-card {
     width: 250px;
     text-align: center;
@@ -1125,12 +1105,11 @@ h2 {
     margin-top: 10px;
 }
 
-/* Bouton Voir Tous */
+
 .btn {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background: #333;
     color: white;
     border-radius: 5px;
     text-decoration: none;
@@ -1138,6 +1117,279 @@ h2 {
 }
 
 .btn:hover {
-    background: #555;
+    transform: scale(1.05);
 }
 
+
+@font-face {
+    font-family: 'Pinky';
+    src: url('fonts/Pinky-Show.otf') format('truetype');
+
+}
+
+
+
+
+:root {
+	--title-font: 'Pinky';
+	--body-font:'Avenir';
+    --text-color: #ffffff;       
+    --primary-color: #386C4E;      
+    --secondary-color: #BDEE9C;    
+}
+
+
+body {
+	background-color:  #BDEE9C;
+    font-family: var(--body-font);
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--title-font);
+    color: var(--primary-color);
+    text-transform: uppercase;
+}
+
+
+a {
+	font-family: var(--title-font);
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+	
+}
+
+a:hover {
+   transform: scale(1.1);
+}
+
+
+.main-navigation {
+    background: var(--background-color);
+    padding: 15px;
+}
+
+.main-navigation ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.main-navigation li {
+    display: inline-block;
+}
+
+.main-navigation a {
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-color);
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.main-navigation a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-family: var(--title-font);
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ffff;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+
+.artiste-card, .album-card {
+    background:#BDEE9C;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.artiste-card:hover, .album-card:hover {
+    transform: scale(1.05);
+}
+
+.artiste-card img, .album-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.artiste-card h3, .album-card h3 {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    font-family: var(--title-font);
+    color: var(--primary-color);
+}
+
+/* FORMULAIRE */
+form {
+    margin-bottom: 20px;
+}
+
+form label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+form select {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+    background: var(--background-color);
+    color: var(--text-color);
+}
+
+
+.site-footer {
+    background: rgba(255, 255, 255, 0.1);
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+.site-footer p {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+
+main#album-single, 
+main#artiste-single {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+main#album-single h1, 
+main#artiste-single h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+main#album-single img, 
+main#artiste-single img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.artiste-info, 
+.album-info {
+    background: var(--secondary-color);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+
+.artiste-info p, 
+.album-info p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+.artiste-info ul, 
+.album-info ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.artiste-info ul li, 
+.album-info ul li {
+    font-size: 1.1rem;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+.artiste-info a, 
+.album-info a {
+    color: var(--primary-color);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.artiste-info a:hover, 
+.album-info a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    main#album-single, 
+    main#artiste-single {
+        padding: 20px;
+    }
+
+    .artiste-info p, 
+    .album-info p {
+        font-size: 1rem;
+    }
+}
+
+#archive-albums h1, 
+#archive-artistes h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}
+
+
+.artistes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 20px; 
+}
+
+.artiste-card {
+    width: 250px;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.artiste-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.artiste-card h2 {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 10px;
+}

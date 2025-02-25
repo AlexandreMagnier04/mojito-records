@@ -1,4 +1,5 @@
 <?php
+
 /**
  * mojito functions and definitions
  *
@@ -195,187 +196,36 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
-function filter_albums() {
-    $genre = isset($_POST['genre']) ? sanitize_text_field($_POST['genre']) : '';
-
-    $args = array(
-        'post_type'      => 'album',
-        'posts_per_page' => -1,
-    );
-
-    if (!empty($genre)) {
-        $args['tax_query'] = array(
-            array(
-                'taxonomy' => 'genre_musical',
-                'field'    => 'slug',
-                'terms'    => $genre,
-            ),
-        );
-    }
-
-    $query = new WP_Query($args);
-
-    if ($query->have_posts()) :
-        while ($query->have_posts()) : $query->the_post(); ?>
-            <article class="album-card">
-                <a href="<?php the_permalink(); ?>">
-                    <?php if (has_post_thumbnail()) : ?>
-                        <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
-                    <?php else : ?>
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/default-album.jpg" alt="Image par défaut">
-                    <?php endif; ?>
-                </a>
-                <h3><?php the_title(); ?></h3>
-            </article>
-        <?php endwhile;
-        wp_reset_postdata();
-    else :
-        echo '<p>Aucun album trouvé pour ce genre.</p>';
-    endif;
-
-    wp_die();
+function mojito_theme_setup() {
+    add_theme_support('post-thumbnails');
 }
-add_action('wp_ajax_filter_albums', 'filter_albums');
-add_action('wp_ajax_nopriv_filter_albums', 'filter_albums');
+add_action('after_setup_theme', 'mojito_theme_setup');
 
-
-function enqueue_custom_scripts() {
-    wp_enqueue_script('filter-albums', get_template_directory_uri() . '/js/filter-albums.js', array('jquery'), null, true);
-    wp_localize_script('filter-albums', 'ajaxurl', array('ajaxurl' => admin_url('admin-ajax.php')));
-	wp_enqueue_script('filter-artistes', get_template_directory_uri() . '/js/filter-artistes.js', array('jquery'), null, true);
-    wp_localize_script('filter-artistes', 'ajaxurl', array('ajaxurl' => admin_url('admin-ajax.php')));
-}
-add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
-
-
-function get_artiste_details() {
-    $artiste_id = $_POST['artiste_id'];
-
-    if (!$artiste_id) {
-        wp_send_json_error('Artiste introuvable.');
-        return;
-    }
-
-    $post = get_post($artiste_id);
-    $genres = get_the_terms($artiste_id, 'genre_musical');
-    $albums = new WP_Query(array(
-        'post_type' => 'album',
-        'meta_query' => array(
-            array(
-                'key' => 'artiste_associe',
-                'value' => '"' . $artiste_id . '"',
-                'compare' => 'LIKE'
-            )
-        )
-    ));
-
-    ob_start(); ?>
-
-    <h2><?php echo get_the_title($post); ?></h2>
-    <p><strong>Début de carrière :</strong> <?php echo SCF::get('debut_carriere', $artiste_id); ?></p>
-    <p><strong>Biographie :</strong> <?php echo SCF::get('biographie', $artiste_id); ?></p>
-    <p><strong>Genre Musical :</strong> 
-        <?php
-        if (!is_wp_error($genres) && !empty($genres)) {
-            foreach ($genres as $genre) {
-                echo '<span>' . esc_html($genre->name) . '</span> ';
-            }
-        } else {
-            echo 'Non classé';
-        }
-        ?>
-    </p>
-
-    <h3>Albums :</h3>
-    <ul>
-        <?php if ($albums->have_posts()) :
-            while ($albums->have_posts()) : $albums->the_post(); ?>
-                <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-            <?php endwhile;
-            wp_reset_postdata();
-        else : ?>
-            <p>Aucun album trouvé.</p>
-        <?php endif; ?>
-    </ul>
-
-    <?php
-    wp_send_json_success(ob_get_clean());
-}
-
-add_action('wp_ajax_get_artiste_details', 'get_artiste_details');
-add_action('wp_ajax_nopriv_get_artiste_details', 'get_artiste_details');
-
-function create_post_type_artistes() {
+function register_custom_post_types() {
     register_post_type('artiste',
         array(
-            'labels'      => array(
-                'name'          => __('Artistes'),
-                'singular_name' => __('Artiste'),
+            'labels' => array(
+                'name' => __('Artistes'),
+                'singular_name' => __('Artiste')
             ),
-            'public'      => true,
-            'has_archive' => true, // ✅ Assure que l'archive /artiste/ est activée
-            'supports'    => array('title', 'editor', 'thumbnail'),
-            'rewrite'     => array('slug' => 'artiste'),
+            'public' => true,
+            'has_archive' => true,
+            'supports' => array('title', 'editor', 'thumbnail'),
+            'rewrite' => array('slug' => 'artiste'),
         )
     );
-}
-add_action('init', 'create_post_type_artistes');
 
-function filter_artistes() {
-    // Vérifie si un genre est sélectionné
-    $genre = isset($_POST['genre']) ? sanitize_text_field($_POST['genre']) : '';
-
-    $args = array(
-        'post_type'      => 'artiste',
-        'posts_per_page' => -1,
-    );
-
-    // Ajoute la condition de filtre si un genre est sélectionné
-    if (!empty($genre)) {
-        $args['tax_query'] = array(
-            array(
-                'taxonomy' => 'genre_musical',
-                'field'    => 'slug',
-                'terms'    => $genre,
-            ),
-        );
-    }
-
-    $query = new WP_Query($args);
-
-    if ($query->have_posts()) :
-        while ($query->have_posts()) : $query->the_post(); ?>
-            <article class="artiste-card">
-                <a href="<?php the_permalink(); ?>">
-                    <?php if (has_post_thumbnail()) : ?>
-                        <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
-                    <?php else : ?>
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/default-artist.jpg" alt="Image par défaut">
-                    <?php endif; ?>
-                </a>
-                <h2><?php the_title(); ?></h2>
-            </article>
-        <?php endwhile;
-        wp_reset_postdata();
-    else :
-        echo '<p>Aucun artiste trouvé pour ce genre.</p>';
-    endif;
-
-    wp_die();
-}
-add_action('wp_ajax_filter_artistes', 'filter_artistes');
-add_action('wp_ajax_nopriv_filter_artistes', 'filter_artistes');
-
-
-function register_genre_musical_taxonomy() {
-    register_taxonomy(
-        'genre_musical',
-        array('artiste', 'album'), // Appliquer aux artistes et albums
+    register_post_type('album',
         array(
-            'label'        => __('Genres Musicaux'),
-            'rewrite'      => array('slug' => 'genre'),
-            'hierarchical' => true, // Si TRUE = type "Catégorie", si FALSE = type "Étiquette"
+            'labels' => array(
+                'name' => __('Albums'),
+                'singular_name' => __('Album')
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'supports' => array('title', 'editor', 'thumbnail'),
+            'rewrite' => array('slug' => 'album'),
         )
     );
 }
-add_action('init', 'register_genre_musical_taxonomy');
+add_action('init', 'register_custom_post_types');

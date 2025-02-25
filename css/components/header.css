@@ -18,14 +18,15 @@ header#masthead {
         margin-right: 10px;
         justify-content: flex-end;
         gap: 48px;
-        font-size: 18px;
+        font-size: 25px;
+        color: #386C4E;
 
         a {
             color: var(--primary);
             text-decoration: wavy underline transparent 2px;
             transition: text-decoration 200ms ease-in-out;
             text-transform: uppercase;
-            font-weight: 800;
+            
         }
 
         a:hover {

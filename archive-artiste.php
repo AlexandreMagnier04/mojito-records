@@ -3,31 +3,30 @@
 <main id="archive-artistes">
     <h1>Nos Artistes</h1>
 
-    <!-- Formulaire de filtre AJAX -->
-    <form id="filter-artistes">
-    <label for="genre">Filtrer par Genre :</label>
-    <select id="genre" name="genre">
-        <option value="">Tous les genres</option>
+    <div class="artistes-grid">
         <?php
-        $genres = get_terms(array(
-            'taxonomy'   => 'genre_musical',
-            'hide_empty' => false
+        $artistes = new WP_Query(array(
+            'post_type'      => 'artiste',
+            'posts_per_page' => -1,
         ));
 
-        if (!is_wp_error($genres) && !empty($genres)) {
-            foreach ($genres as $genre) {
-                echo '<option value="' . esc_attr($genre->slug) . '">' . esc_html($genre->name) . '</option>';
-            }
-        } else {
-            echo '<option value="">Aucun genre trouvé</option>';
-        }
-        ?>
-    </select>
-</form>
-
-    <!-- Conteneur AJAX des artistes -->
-    <div id="artistes-container">
-        <?php get_template_part('template-parts/artistes-list'); ?>
+        if ($artistes->have_posts()) :
+            while ($artistes->have_posts()) : $artistes->the_post(); ?>
+                <article class="artiste-card">
+                    <a href="<?php the_permalink(); ?>">
+                        <?php if (has_post_thumbnail()) : ?>
+                            <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
+                        <?php else : ?>
+                            <img src="<?php echo get_template_directory_uri(); ?>/images/default-artist.jpg" alt="Image par défaut">
+                        <?php endif; ?>
+                    </a>
+                    <h2><?php the_title(); ?></h2>
+                </article>
+            <?php endwhile;
+            wp_reset_postdata();
+        else : ?>
+            <p>Aucun artiste trouvé.</p>
+        <?php endif; ?>
     </div>
 </main>
 
